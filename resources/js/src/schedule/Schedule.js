@@ -21,7 +21,7 @@ const styles = {
   }
 };
 
-// Cria a timezone 
+// Creates a new timezone 
 DayPilot.Locale.register(
   new DayPilot.Locale('my-timezone',
     {
@@ -40,9 +40,10 @@ DayPilot.Locale.register(
 class Schedule extends Component {
   constructor(props) {
     super(props);
-    // props
+    // props - getting recruiter's name from home.blade.php
     recruiter_name = this.props.name;
-    // Muda as cores de cada recruiter
+
+    // Changes the event's color of each recruiter in the schedule
     if (recruiter_name == 'Ines'){
       var recruiter_color = "#d1247a"
     }
@@ -68,13 +69,13 @@ class Schedule extends Component {
       eventMoveHandling: "Disabled",
 
       
-      // Cria um evento
+      // Creates a new event (interview availability)
       onTimeRangeSelected: args => {
         let dp = this.calendar;        
         DayPilot.Modal.confirm("Do you wish to confirm your availability?").then(function (modal) {
           dp.clearSelection();
           if (!modal.result) { return; }
-          // Novo evento
+          // The new event
           let newEvent = new DayPilot.Event({
             start: args.start,
             end: args.end,
@@ -82,17 +83,16 @@ class Schedule extends Component {
             backColor: recruiter_color,
             text: recruiter_name
           });
-          // Adiciona aos eventos
+          // Add to the events list
           dp.events.add(newEvent)
-          console.log(newEvent.data.start.value);
+          //console.log(newEvent.data.start.value);
 
-          // Guarda na DB com o método POST
+          // Saves the event in the DB 
           const request = {
             method: "POST",
             headers: {
               'Accept': 'application/json',
               'Content-Type': 'application/json',
-              //'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             body: JSON.stringify(newEvent.data
             ),
@@ -106,7 +106,7 @@ class Schedule extends Component {
 
       },
       
-      // Apaga o evento
+      // Deletes an event on click
       onEventClick: args => {
         let dp = this.calendar;
         if(recruiter_name == 'Root' || recruiter_name == args.e.data.text){
@@ -115,7 +115,7 @@ class Schedule extends Component {
             if (!modal.result){
               return; 
             }else{
-              // Faz um POST
+              // POST request to delete the clicked event in the DB
               const request = {
                 method: "POST",
                 headers: {
@@ -129,13 +129,14 @@ class Schedule extends Component {
                 console.log(resp)
               })
               
-              dp.events.remove(args.e)
+              dp.events.remove(args.e) 
             }
           });
         }
       },
     }
     ):
+    // Guest view
     this.state = {
       locale: 'my-timezone',
       headerDateFormat: 'dddd',
@@ -150,11 +151,9 @@ class Schedule extends Component {
     }
   }
 
-  // Eventos
   componentDidMount() {
 
-
-    // GET request para ir buscar os dados à DB
+    // GET request to get all the created events in the DB
     fetch("/api/getevents")
       .then(response => response.json())
       .then(data => this.setState({startDate: "2021-02-01", events: data.data},
@@ -163,7 +162,6 @@ class Schedule extends Component {
       ));
   }
 
-  // Faz o render
   render() {
     var { ...config } = this.state;
     return (
@@ -187,5 +185,5 @@ class Schedule extends Component {
   }
 }
 
-// Exporta para o ficheiro index.js
+// Exports this file to index.js
 export default Schedule;

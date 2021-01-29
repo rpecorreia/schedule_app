@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import Schedule from './schedule/Schedule';
 import reportWebVitals from './reportWebVitals';
 
+//get element from home.blade.php where the React component will be shown
 if(document.getElementById('user')){
 
   var data = document.getElementById('user').getAttribute('data');
