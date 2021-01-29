@@ -185,5 +185,5 @@ class Schedule extends Component {
   }
 }
 
-// Exports this file to index.js
+// Export this file to index.js
 export default Schedule;

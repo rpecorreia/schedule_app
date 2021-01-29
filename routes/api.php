@@ -20,7 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 // add a new event in schedule
 Route::post('/addevent', [App\Http\Controllers\EventController::class, 'add'])->name('addevent');
-// remove a avent in schedule
+// remove an event in schedule
 Route::post('/removeevent', [App\Http\Controllers\EventController::class, 'remove'])->name('removeevent');
 // get all events in schedule
 Route::get('/getevents', [App\Http\Controllers\EventController::class, 'get'])->name('getevents');

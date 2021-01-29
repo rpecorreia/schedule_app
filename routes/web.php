@@ -28,6 +28,6 @@ Route::get('/guest', [App\Http\Controllers\GuestController::class, 'index'])->na
 //authentication
 Auth::routes();
 
-// get recuiter dashboard
+// get recruiter dashboard
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

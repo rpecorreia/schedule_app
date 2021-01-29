@@ -1918,7 +1918,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
+ //get element from home.blade.php where the React component will be shown
 
 if (document.getElementById('user')) {
   var data = document.getElementById('user').getAttribute('data');
@@ -2035,7 +2035,7 @@ var styles = {
   a: {
     color: "gray"
   }
-}; // Cria a timezone 
+}; // Creates a new timezone 
 
 daypilot_pro_react__WEBPACK_IMPORTED_MODULE_2__.DayPilot.Locale.register(new daypilot_pro_react__WEBPACK_IMPORTED_MODULE_2__.DayPilot.Locale('my-timezone', {
   dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
@@ -2059,9 +2059,9 @@ var Schedule = /*#__PURE__*/function (_Component) {
 
     _classCallCheck(this, Schedule);
 
-    _this = _super.call(this, props); // props
+    _this = _super.call(this, props); // props - getting recruiter's name from home.blade.php
 
-    recruiter_name = _this.props.name; // Muda as cores de cada recruiter
+    recruiter_name = _this.props.name; // Changes the event's color of each recruiter in the schedule
 
     if (recruiter_name == 'Ines') {
       var recruiter_color = "#d1247a";
@@ -2088,7 +2088,7 @@ var Schedule = /*#__PURE__*/function (_Component) {
       timeRangeSelectHandling: "Enabled",
       allowEventOverlap: false,
       eventMoveHandling: "Disabled",
-      // Cria um evento
+      // Creates a new event (interview availability)
       onTimeRangeSelected: function onTimeRangeSelected(args) {
         var dp = _this.calendar;
         daypilot_pro_react__WEBPACK_IMPORTED_MODULE_2__.DayPilot.Modal.confirm("Do you wish to confirm your availability?").then(function (modal) {
@@ -2096,7 +2096,7 @@ var Schedule = /*#__PURE__*/function (_Component) {
 
           if (!modal.result) {
             return;
-          } // Novo evento
+          } // The new event
 
 
           var newEvent = new daypilot_pro_react__WEBPACK_IMPORTED_MODULE_2__.DayPilot.Event({
@@ -2105,17 +2105,16 @@ var Schedule = /*#__PURE__*/function (_Component) {
             // id: DayPilot.guid(),
             backColor: recruiter_color,
             text: recruiter_name
-          }); // Adiciona aos eventos
+          }); // Add to the events list
 
-          dp.events.add(newEvent);
-          console.log(newEvent.data.start.value); // Guarda na DB com o método POST
+          dp.events.add(newEvent); //console.log(newEvent.data.start.value);
+          // Saves the event in the DB 
 
           var request = {
             method: "POST",
             headers: {
               'Accept': 'application/json',
-              'Content-Type': 'application/json' //'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-
+              'Content-Type': 'application/json'
             },
             body: JSON.stringify(newEvent.data)
           };
@@ -2124,7 +2123,7 @@ var Schedule = /*#__PURE__*/function (_Component) {
           });
         });
       },
-      // Apaga o evento
+      // Deletes an event on click
       onEventClick: function onEventClick(args) {
         var dp = _this.calendar;
 
@@ -2135,7 +2134,7 @@ var Schedule = /*#__PURE__*/function (_Component) {
             if (!modal.result) {
               return;
             } else {
-              // Faz um POST
+              // POST request to delete the clicked event in the DB
               var request = {
                 method: "POST",
                 headers: {
@@ -2152,7 +2151,8 @@ var Schedule = /*#__PURE__*/function (_Component) {
           });
         }
       }
-    } : _this.state = {
+    } : // Guest view
+    _this.state = {
       locale: 'my-timezone',
       headerDateFormat: 'dddd',
       dayBeginsHour: 9,
@@ -2164,15 +2164,14 @@ var Schedule = /*#__PURE__*/function (_Component) {
       eventMoveHandling: "Disabled"
     };
     return _this;
-  } // Eventos
-
+  }
 
   _createClass(Schedule, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
 
-      // GET request para ir buscar os dados à DB
+      // GET request to get all the created events in the DB
       fetch("/api/getevents").then(function (response) {
         return response.json();
       }).then(function (data) {
@@ -2181,8 +2180,7 @@ var Schedule = /*#__PURE__*/function (_Component) {
           events: data.data
         }, console.log(data.data));
       });
-    } // Faz o render
-
+    }
   }, {
     key: "render",
     value: function render() {
@@ -2218,7 +2216,7 @@ var Schedule = /*#__PURE__*/function (_Component) {
   }]);
 
   return Schedule;
-}(react__WEBPACK_IMPORTED_MODULE_1__.Component); // Exporta para o ficheiro index.js
+}(react__WEBPACK_IMPORTED_MODULE_1__.Component); // Export this file to index.js
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Schedule);

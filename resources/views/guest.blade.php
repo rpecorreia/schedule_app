@@ -12,8 +12,5 @@
     </div>
 </div>
 
-    <!-- React JS -->
-    <script src="{{ asset('js/src/index.js') }}" defer></script>
-
 
 @endsection
